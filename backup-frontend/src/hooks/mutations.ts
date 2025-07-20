@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { axiosClient } from "./client";
+import { queryClient } from "./query-client";
 
 export const useCpuStress = () => {
   return useMutation({
@@ -11,14 +12,13 @@ export const useCpuStress = () => {
       workers: number;
       timeout: number;
     }) => {
-      const response = await axiosClient.post(
-        `/cpu`,
-        null, // no body
-        {
-          params: { workers, timeout },
-        }
-      );
+      const response = await axiosClient.post(`/cpu`, null, {
+        params: { workers, timeout },
+      });
       return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["logs"] });
     },
   });
 };
@@ -40,6 +40,9 @@ export const useRamStress = () => {
       });
       return response.data;
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["logs"] });
+    },
   });
 };
 
@@ -59,6 +62,9 @@ export const useDiskStress = () => {
         params: { workers, bytes, timeout },
       });
       return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["logs"] });
     },
   });
 };

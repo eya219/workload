@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import StressTestInterface from "./components/stress";
 import { Toaster } from "sonner";
-
-const queryClient = new QueryClient();
+import { queryClient } from "./hooks/query-client";
 
 function App() {
   return (

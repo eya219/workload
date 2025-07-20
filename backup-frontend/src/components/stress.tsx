@@ -13,8 +13,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Cpu, HardDrive, MemoryStick, Play, Loader2 } from "lucide-react";
 import { useCpuStress, useDiskStress, useRamStress } from "@/hooks/mutations";
+import { Separator } from "./ui/separator";
+import { Badge } from "./ui/badge";
+import { Textarea } from "./ui/textarea";
+import { useLogs } from "@/hooks/queries";
+import { format } from "date-fns";
 
 export default function StressTestInterface() {
+  const { data, status } = useLogs();
   const [cpuForm, setCpuForm] = useState({ workers: 1, timeout: 10 });
   const [ramForm, setRamForm] = useState({
     workers: 1,
@@ -280,8 +286,7 @@ export default function StressTestInterface() {
           </Card>
         </div>
 
-        {/* Results Section */}
-        {/* {results.length > 0 && (
+        {data && data.length > 0 && (
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="text-2xl">Test Results</CardTitle>
@@ -291,7 +296,7 @@ export default function StressTestInterface() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4 max-h-44 overflow-y-auto">
-                {results.map((result, index) => (
+                {data.map((result, index) => (
                   <div
                     key={index}
                     className="border rounded-lg p-4 bg-slate-50 dark:bg-slate-800"
@@ -300,31 +305,32 @@ export default function StressTestInterface() {
                       <div className="flex items-center gap-2">
                         <Badge
                           variant={
-                            result.status === "success"
-                              ? "default"
-                              : "destructive"
+                            result.status === "0" ? "default" : "destructive"
                           }
                         >
                           {result.type}
                         </Badge>
                         <span className="text-sm text-slate-600 dark:text-slate-400">
-                          {result.timestamp.toLocaleString()}
+                          Started{" "}
+                          {format(result.startTime, "PPP 'at' HH:mm:ss aa")} -
+                          Ended At{" "}
+                          {format(result.endTime, "PPP 'at' HH:mm:ss aa")}
                         </span>
                       </div>
                       <Badge
                         variant="outline"
                         className={
-                          result.status === "success"
+                          result.status === "0"
                             ? "text-green-600"
                             : "text-red-600"
                         }
                       >
-                        {result.status}
+                        {result.status === "0" ? "Success" : "Failed"}
                       </Badge>
                     </div>
                     <Separator className="my-2" />
                     <Textarea
-                      value={result.result}
+                      value={result.output}
                       readOnly
                       className="min-h-[100px] font-mono text-sm bg-white dark:bg-slate-900"
                     />
@@ -333,7 +339,7 @@ export default function StressTestInterface() {
               </div>
             </CardContent>
           </Card>
-        )} */}
+        )}
       </div>
     </div>
   );
