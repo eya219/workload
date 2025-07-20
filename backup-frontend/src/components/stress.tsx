@@ -20,7 +20,7 @@ import { useLogs } from "@/hooks/queries";
 import { format } from "date-fns";
 
 export default function StressTestInterface() {
-  const { data, status } = useLogs();
+  const { data } = useLogs();
   const [cpuForm, setCpuForm] = useState({ workers: 1, timeout: 10 });
   const [ramForm, setRamForm] = useState({
     workers: 1,

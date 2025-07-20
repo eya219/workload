@@ -11,11 +11,7 @@ export interface StressTest {
   endTime: string;
 }
 
-export enum StressType {
-  VirtualMemory = "Virtual Memory",
-  CPU = "CPU",
-  HardDrive = "Hard Drive",
-}
+export type StressType = "Virtual Memory" | "CPU" | "Hard Drive";
 
 export function useLogs() {
   return useQuery({
