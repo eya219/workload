@@ -1,6 +1,10 @@
 package org.plugin.backupbackend;
 
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/stress")
@@ -10,6 +14,15 @@ public class StressController {
 
     public StressController(StressService stressService) {
         this.stressService = stressService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StressTest>> getLogs() {
+        try {
+            return ResponseEntity.ok(stressService.getLogs());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PostMapping("/cpu")
