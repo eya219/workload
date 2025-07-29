@@ -16,7 +16,7 @@ spec:
         - name: frontend
           image: dockeraccount098/backup-frontend:latest
           ports:
-            - containerPort: 4173
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
