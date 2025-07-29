@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backup-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backup-frontend
+  template:
+    metadata:
+      labels:
+        app: backup-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: your-registry/backup-frontend:latest
+          ports:
+            - containerPort: 4173
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backup-frontend-service
+spec:
+  selector:
+    app: backup-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4173
+  type: ClusterIP
