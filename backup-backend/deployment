@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: your-registry/backup-backend:latest
+          image: dockeraccount098/backup-backend:latest
           ports:
             - containerPort: 8080
 ---
