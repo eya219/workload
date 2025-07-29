@@ -1,12 +1,12 @@
 # Stage 1: Build
-FROM node:18 AS build
+FROM node:20.19.0 AS build
 WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run build
  
 # Stage 2: Run
-FROM node:18-alpine
+FROM node:20.19.0-alpine
 WORKDIR /app
 COPY --from=build /app /app
 RUN npm install -g serve
