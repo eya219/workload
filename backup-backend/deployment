@@ -27,6 +27,7 @@ spec:
     app: backup-backend
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: ClusterIP
+      port: 80
+      targetPort: 4173
+      nodePort: 30080
+  type: NodePort
