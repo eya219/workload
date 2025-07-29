@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: your-registry/backup-frontend:latest
+          image: dockeraccount098/backup-frontend:latest
           ports:
             - containerPort: 4173
 ---
