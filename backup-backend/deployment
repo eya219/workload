@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backup-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backup-backend
+  template:
+    metadata:
+      labels:
+        app: backup-backend
+    spec:
+      containers:
+        - name: backend
+          image: your-registry/backup-backend:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backup-backend-service
+spec:
+  selector:
+    app: backup-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
