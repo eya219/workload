@@ -2,30 +2,21 @@
 FROM node:20.19.0 AS build
 WORKDIR /app
 
-# Copy only the dependency files first (enables layer caching)
 COPY package*.json ./
-
-# Clean and fast install
 RUN npm ci
 
-# Copy the rest of the application
 COPY . .
-
-# Build the app
 RUN npm run build
 
-# Stage 2: Serve
+# Stage 2: Serve static files
 FROM node:20.19.0-alpine
 WORKDIR /app
 
-# Copy built app from previous stage
-COPY --from=build /app /app
-
-# Install lightweight server
+# Install a lightweight static file server
 RUN npm install -g serve
 
-# Expose the port your app will run on
-EXPOSE 4173
+# Copy only the built output
+COPY --from=build /app/dist ./dist
 
-# Start the app in preview mode
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
+EXPOSE 4173
+CMD ["serve", "-s", "dist", "-l", "4173"]
